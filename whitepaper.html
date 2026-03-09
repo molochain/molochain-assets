@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOLO CHAIN ($MOLO) — Whitepaper v1.0</title>
+<link rel="icon" type="image/png" href="/token-logo-32.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050510;--card:#0d0d24;--border:#1a1a3e;--accent:#4cc9f0;--gold:#f5a623;--green:#10b981;--red:#ef4444;--text:#e8e8f0;--muted:#8888aa;--gradient:linear-gradient(135deg,#4cc9f0,#7c3aed)}
+body{font-family:'Segoe UI','Inter',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.wp-header{background:linear-gradient(135deg,#0a0a2e 0%,#1a0a3e 50%,#050520 100%);border-bottom:1px solid var(--border);padding:3rem 2rem;text-align:center}
+.wp-header img{width:80px;height:80px;border-radius:16px;margin-bottom:1rem}
+.wp-header h1{font-size:2.6rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.3rem}
+.wp-header .version{color:var(--muted);font-size:0.95rem;margin-bottom:0.5rem}
+.wp-header .tagline{color:var(--accent);font-size:1.15rem;font-weight:500;max-width:700px;margin:0 auto}
+
+.wp-nav{background:var(--card);border-bottom:1px solid var(--border);padding:1rem 2rem;position:sticky;top:0;z-index:100;display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center}
+.wp-nav a{color:var(--muted);font-size:0.82rem;padding:6px 14px;border-radius:6px;border:1px solid transparent;transition:all 0.2s}
+.wp-nav a:hover,.wp-nav a:focus{color:var(--accent);border-color:rgba(76,201,240,0.25);text-decoration:none;background:rgba(76,201,240,0.05)}
+
+.wp-body{max-width:860px;margin:0 auto;padding:2rem 2rem 6rem}
+
+.section{margin-bottom:3rem;scroll-margin-top:80px}
+.section h2{font-size:1.65rem;font-weight:700;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid rgba(76,201,240,0.15);display:flex;align-items:center;gap:0.5rem}
+.section h2 .num{background:var(--gradient);color:#fff;width:32px;height:32px;border-radius:8px;text-align:center;line-height:32px;font-size:0.85rem;font-weight:700;flex-shrink:0}
+.section h3{font-size:1.15rem;color:var(--accent);margin:1.5rem 0 0.75rem;font-weight:600}
+.section p,.section li{line-height:1.8;font-size:0.95rem;color:#c8c8e0}
+.section p{margin-bottom:0.85rem}
+.section ul,.section ol{margin-left:1.5rem;margin-bottom:1rem}
+.section li{margin-bottom:0.4rem}
+
+.highlight-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin:1rem 0 1.5rem}
+.highlight-box.green{border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.04)}
+.highlight-box.blue{border-color:rgba(76,201,240,0.3);background:rgba(76,201,240,0.04)}
+.highlight-box.gold{border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.04)}
+
+.data-table{width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:0.9rem}
+.data-table th{background:rgba(76,201,240,0.08);color:var(--accent);font-weight:600;text-align:left;padding:10px 14px;border-bottom:1px solid var(--border)}
+.data-table td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);color:#c8c8e0}
+.data-table tr:hover td{background:rgba(76,201,240,0.02)}
+.data-table .mono{font-family:'SF Mono',Monaco,'Cascadia Code',monospace;font-size:0.82rem;word-break:break-all;color:var(--accent)}
+
+.alloc-chart{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0 1.5rem}
+.alloc-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;position:relative;overflow:hidden}
+.alloc-item::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gradient)}
+.alloc-pct{font-size:1.8rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.alloc-label{color:var(--text);font-weight:600;font-size:0.9rem;margin-top:0.15rem}
+.alloc-desc{color:var(--muted);font-size:0.8rem;margin-top:0.25rem}
+
+.vest-timeline{position:relative;padding-left:30px;margin:1rem 0 1.5rem}
+.vest-timeline::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:rgba(76,201,240,0.2)}
+.vest-item{position:relative;margin-bottom:1.25rem}
+.vest-item::before{content:'';position:absolute;left:-22px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--gradient);border:2px solid var(--bg)}
+.vest-date{color:var(--accent);font-size:0.82rem;font-weight:600}
+.vest-detail{color:#c8c8e0;font-size:0.9rem;margin-top:2px}
+
+.roadmap-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.roadmap-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem}
+.roadmap-card h4{color:var(--accent);font-size:0.95rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:6px}
+.roadmap-card h4 .status{width:8px;height:8px;border-radius:50%}
+.roadmap-card h4 .done{background:var(--green)}
+.roadmap-card h4 .progress{background:var(--gold)}
+.roadmap-card h4 .planned{background:var(--muted)}
+.roadmap-card ul{list-style:none;padding:0;margin:0}
+.roadmap-card li{font-size:0.83rem;color:var(--muted);padding:3px 0;padding-left:14px;position:relative}
+.roadmap-card li::before{content:'\\2022';position:absolute;left:0;color:rgba(76,201,240,0.5)}
+
+.contract-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin:0.75rem 0;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.contract-label{color:var(--muted);font-size:0.82rem;min-width:120px}
+.contract-addr{font-family:'SF Mono',Monaco,monospace;font-size:0.82rem;color:var(--accent);word-break:break-all;flex:1}
+
+.footer-section{text-align:center;padding:3rem 2rem;border-top:1px solid var(--border);margin-top:3rem}
+.footer-section p{color:var(--muted);font-size:0.85rem;line-height:1.7}
+.footer-links{display:flex;gap:1.25rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+.footer-links a{color:var(--accent);font-size:0.88rem;padding:8px 18px;border:1px solid rgba(76,201,240,0.2);border-radius:8px;transition:all 0.2s}
+.footer-links a:hover{background:rgba(76,201,240,0.08);text-decoration:none}
+
+@media(max-width:700px){
+  .wp-header h1{font-size:1.8rem}
+  .alloc-chart{grid-template-columns:1fr}
+  .roadmap-grid{grid-template-columns:1fr}
+  .contract-box{flex-direction:column;align-items:flex-start;gap:0.35rem}
+}
+</style>
+</head><body>
+
+<div class="wp-header">
+  <img src="/token-logo-256.png" alt="MOLO CHAIN">
+  <h1>MOLO CHAIN Whitepaper</h1>
+  <div class="version">Version 1.0 &mdash; March 2026</div>
+  <div class="tagline">Decentralized Logistics Infrastructure on BNB Smart Chain</div>
+</div>
+
+<nav class="wp-nav">
+  <a href="#abstract">Abstract</a>
+  <a href="#problem">Problem</a>
+  <a href="#solution">Solution</a>
+  <a href="#tokenomics">Tokenomics</a>
+  <a href="#allocation">Allocation</a>
+  <a href="#vesting">Vesting</a>
+  <a href="#technical">Technical</a>
+  <a href="#security">Security</a>
+  <a href="#ecosystem">Ecosystem</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#contracts">Contracts</a>
+  <a href="#legal">Legal</a>
+</nav>
+
+<div class="wp-body">
+
+<div class="section" id="abstract">
+<h2><span class="num">1</span> Abstract</h2>
+<p>MOLO CHAIN ($MOLO) is a BEP-20 utility and governance token deployed on BNB Smart Chain (BSC) Mainnet. It serves as the native currency of the Molochain ecosystem &mdash; a next-generation logistics platform that combines decentralized freight management, AI-driven route optimization, real-time shipment tracking, and transparent supply chain governance.</p>
+<p>The global logistics market, valued at over $9.5 trillion annually, remains plagued by fragmented systems, opaque pricing, manual documentation, and limited stakeholder coordination. Molochain addresses these inefficiencies by building an integrated blockchain-powered infrastructure where every participant &mdash; shippers, carriers, brokers, and consumers &mdash; can interact through trustless, transparent, and auditable smart contracts.</p>
+<p>The MOLO token provides the economic foundation for this ecosystem: it powers transaction settlement, incentivizes network participation, enables decentralized governance, and creates long-term value through a deflationary burn mechanism.</p>
+<div class="highlight-box blue">
+<strong>Key Facts:</strong> 100 trillion fixed supply &bull; No minting function &bull; Deflationary burn &bull; Team tokens vested over 24 months &bull; Live on PancakeSwap V2 &bull; Verified source code on BSCscan
+</div>
+</div>
+
+<div class="section" id="problem">
+<h2><span class="num">2</span> Problem Statement</h2>
+<p>The logistics industry faces systemic challenges that traditional technology has failed to fully resolve:</p>
+<h3>2.1 Fragmentation</h3>
+<p>Supply chains involve dozens of intermediaries &mdash; freight forwarders, customs brokers, carriers, warehousing providers, insurance companies &mdash; each using siloed software systems. Data is duplicated, mismatched, and delayed, leading to an estimated 10-15% operational overhead.</p>
+<h3>2.2 Opaque Pricing</h3>
+<p>Freight pricing is notoriously opaque. Spot rates fluctuate based on capacity, fuel costs, seasonality, and broker markups. Shippers often pay 20-40% above base carrier rates due to intermediary layers, with no mechanism for transparent price discovery.</p>
+<h3>2.3 Paper-Based Documentation</h3>
+<p>Despite digitization efforts, approximately 40% of global trade documentation remains paper-based. Bills of lading, customs declarations, and proof-of-delivery documents create bottlenecks, compliance risks, and dispute resolution delays of 30+ days.</p>
+<h3>2.4 Limited Real-Time Visibility</h3>
+<p>Shippers frequently lack accurate, real-time tracking of their cargo. Status updates are delayed, inconsistent, and often manual. This uncertainty increases safety stock requirements and working capital costs across the entire supply chain.</p>
+<h3>2.5 Trust Deficits</h3>
+<p>Without a shared, immutable record of transactions, disputes between parties are common. Payment delays to carriers average 45-90 days, straining small operators and reducing market participation.</p>
+</div>
+
+<div class="section" id="solution">
+<h2><span class="num">3</span> The Molochain Solution</h2>
+<p>Molochain builds a unified, blockchain-native logistics platform that addresses each of the industry&rsquo;s core pain points. The platform consists of four integrated modules:</p>
+
+<h3>3.1 Rayanava &mdash; AI Route Optimization</h3>
+<p>Rayanava is Molochain&rsquo;s AI-powered routing engine. It analyzes real-time traffic, weather, fuel costs, vehicle capacity, and delivery windows to generate optimal multi-stop routing plans. By reducing empty miles and transit time, Rayanava saves carriers an estimated 12-18% in fuel and operational costs.</p>
+
+<h3>3.2 MoloLink &mdash; Real-Time Shipment Tracking</h3>
+<p>MoloLink provides end-to-end shipment visibility through IoT sensor integration, GPS tracking, and blockchain-anchored status updates. Every milestone &mdash; pickup, in-transit, customs clearance, delivery &mdash; is recorded on-chain, creating an immutable audit trail accessible to all authorized parties.</p>
+
+<h3>3.3 OTMS &mdash; Operational Transport Management</h3>
+<p>The Operational Transport Management System (OTMS) digitizes the entire freight lifecycle: load matching, carrier selection, contract management, invoicing, and payment settlement. Smart contracts automate payment release upon delivery confirmation, reducing payment cycles from 45-90 days to near-instant settlement.</p>
+
+<h3>3.4 On-Chain Governance</h3>
+<p>MOLO token holders participate in ecosystem governance through on-chain proposals and voting. This includes decisions on platform fee structures, burn rate adjustments, ecosystem fund allocation, and protocol upgrades. Governance ensures the platform evolves according to community consensus rather than centralized authority.</p>
+
+<div class="highlight-box green">
+<strong>Value Proposition:</strong> By combining AI optimization, IoT tracking, automated settlement, and decentralized governance on a single blockchain platform, Molochain reduces logistics costs by 15-25% while improving transparency, speed, and trust across the supply chain.
+</div>
+</div>
+
+<div class="section" id="tokenomics">
+<h2><span class="num">4</span> Tokenomics</h2>
+
+<table class="data-table">
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>Token Name</td><td>MOLO CHAIN</td></tr>
+<tr><td>Ticker Symbol</td><td>$MOLO</td></tr>
+<tr><td>Token Standard</td><td>BEP-20 (ERC-20 compatible)</td></tr>
+<tr><td>Network</td><td>BNB Smart Chain (Chain ID: 56)</td></tr>
+<tr><td>Decimals</td><td>18</td></tr>
+<tr><td>Total Supply</td><td>100,000,000,000,000 (100 Trillion)</td></tr>
+<tr><td>Max Supply</td><td>100,000,000,000,000 (No minting function)</td></tr>
+<tr><td>Launch Date</td><td>March 8, 2026</td></tr>
+<tr><td>Compiler</td><td>Solidity 0.8.20</td></tr>
+<tr><td>Framework</td><td>OpenZeppelin Contracts v5</td></tr>
+</table>
+
+<h3>4.1 Token Utility</h3>
+<ul>
+<li><strong>Transaction Settlement:</strong> MOLO is the primary medium of exchange for freight payments, carrier settlements, and platform service fees within the Molochain ecosystem.</li>
+<li><strong>Governance Voting:</strong> Token holders vote on protocol proposals, fee structures, and ecosystem fund allocations. Voting power is proportional to MOLO holdings.</li>
+<li><strong>Staking Rewards:</strong> Participants who stake MOLO tokens to validate shipment data and provide network security earn staking rewards from platform fees.</li>
+<li><strong>Burn Mechanism:</strong> A percentage of platform transaction fees is permanently burned, creating deflationary pressure and long-term scarcity.</li>
+<li><strong>Access &amp; Licensing:</strong> Enterprise users pay MOLO tokens to access premium platform features including Rayanava AI routing, advanced analytics, and priority support.</li>
+</ul>
+
+<h3>4.2 Deflationary Design</h3>
+<p>The MOLO token implements ERC20Burnable from OpenZeppelin, allowing tokens to be permanently removed from circulation. The burn mechanism activates through two channels:</p>
+<ul>
+<li><strong>Transaction Burns:</strong> A portion of each platform transaction fee is burned automatically.</li>
+<li><strong>Manual Burns:</strong> The token owner can execute discretionary burns to manage supply in response to ecosystem growth milestones.</li>
+</ul>
+<p>Because the contract has no mint function, every burn permanently reduces the total supply, creating a one-way deflationary trajectory.</p>
+</div>
+
+<div class="section" id="allocation">
+<h2><span class="num">5</span> Token Allocation</h2>
+
+<div class="alloc-chart">
+  <div class="alloc-item">
+    <div class="alloc-pct">30%</div>
+    <div class="alloc-label">Ecosystem &amp; Development</div>
+    <div class="alloc-desc">30T MOLO &mdash; Platform development, partnerships, grants, ecosystem incentives, and community building</div>
+  </div>
+  <div class="alloc-item">
+    <div class="alloc-pct">25%</div>
+    <div class="alloc-label">Public Sale &amp; Community</div>
+    <div class="alloc-desc">25T MOLO &mdash; Community distribution, early adopters, marketing campaigns, and public availability</div>
+  </div>
+  <div class="alloc-item">
+    <div class="alloc-pct">25%</div>
+    <div class="alloc-label">Team &amp; Advisors</div>
+    <div class="alloc-desc">25T MOLO &mdash; Locked in on-chain vesting contract with 24-month release schedule</div>
+  </div>
+  <div class="alloc-item">
+    <div class="alloc-pct">20%</div>
+    <div class="alloc-label">Liquidity &amp; Reserves</div>
+    <div class="alloc-desc">20T MOLO &mdash; DEX liquidity provision, market making, and operational reserves</div>
+  </div>
+</div>
+
+<table class="data-table">
+<tr><th>Allocation</th><th>Percentage</th><th>Amount (MOLO)</th><th>Wallet</th></tr>
+<tr><td>Ecosystem &amp; Development</td><td>30%</td><td>30,000,000,000,000</td><td class="mono">0x425D33C1499b518ad21E2599E067DB445C73fAd5</td></tr>
+<tr><td>Public Sale &amp; Community</td><td>25%</td><td>25,000,000,000,000</td><td class="mono">0x32E09A9AdD795f3aEB0299Ed0bb66109a7A6638a</td></tr>
+<tr><td>Team &amp; Advisors</td><td>25%</td><td>25,000,000,000,000</td><td class="mono">0xd83cFD41B29A090fC3cc59854205497b57059bA1</td></tr>
+<tr><td>Liquidity &amp; Reserves</td><td>20%</td><td>20,000,000,000,000</td><td class="mono">0x7abe4dB700cfAA83286272FDEe7299E084631a8F</td></tr>
+</table>
+</div>
+
+<div class="section" id="vesting">
+<h2><span class="num">6</span> Team Vesting Schedule</h2>
+<p>To ensure long-term alignment between the team and the community, 100% of the Team &amp; Advisors allocation (25T MOLO) is locked in a transparent, on-chain vesting contract deployed on BSC Mainnet. No team member can access or transfer locked tokens before their scheduled release date.</p>
+
+<div class="vest-timeline">
+  <div class="vest-item">
+    <div class="vest-date">March 9, 2026 &mdash; TGE (Token Generation Event)</div>
+    <div class="vest-detail">10% released (2,500,000,000,000 MOLO) &mdash; Initial operational funding</div>
+  </div>
+  <div class="vest-item">
+    <div class="vest-date">June 7, 2026 &mdash; Month 3</div>
+    <div class="vest-detail">15% released (3,750,000,000,000 MOLO) &mdash; Development milestone payment</div>
+  </div>
+  <div class="vest-item">
+    <div class="vest-date">September 5, 2026 &mdash; Month 6</div>
+    <div class="vest-detail">25% released (6,250,000,000,000 MOLO) &mdash; Platform beta launch incentive</div>
+  </div>
+  <div class="vest-item">
+    <div class="vest-date">March 9, 2027 &mdash; Month 12</div>
+    <div class="vest-detail">25% released (6,250,000,000,000 MOLO) &mdash; Annual performance release</div>
+  </div>
+  <div class="vest-item">
+    <div class="vest-date">March 8, 2028 &mdash; Month 24</div>
+    <div class="vest-detail">25% released (6,250,000,000,000 MOLO) &mdash; Final vesting completion</div>
+  </div>
+</div>
+
+<div class="contract-box">
+  <span class="contract-label">Vesting Contract</span>
+  <span class="contract-addr">0x3EEC23A2B1f9E8a3c96735eef1BF966F16983215</span>
+</div>
+<div class="contract-box">
+  <span class="contract-label">Beneficiary</span>
+  <span class="contract-addr">0xd83cFD41B29A090fC3cc59854205497b57059bA1</span>
+</div>
+<p style="margin-top:0.75rem">The vesting contract is verified on BSCscan with publicly readable source code. Anyone can independently verify the lock status, remaining balance, and upcoming release dates on-chain.</p>
+</div>
+
+<div class="section" id="technical">
+<h2><span class="num">7</span> Technical Architecture</h2>
+<h3>7.1 Smart Contract Design</h3>
+<p>The MOLO token contract inherits from four battle-tested OpenZeppelin v5 modules:</p>
+<table class="data-table">
+<tr><th>Module</th><th>Purpose</th></tr>
+<tr><td>ERC20</td><td>Standard token interface &mdash; balances, transfers, approvals</td></tr>
+<tr><td>ERC20Burnable</td><td>Allows token holders and owner to permanently burn tokens</td></tr>
+<tr><td>ERC20Pausable</td><td>Emergency pause capability to freeze all transfers during security events</td></tr>
+<tr><td>Ownable</td><td>Access control for administrative functions (pause/unpause)</td></tr>
+</table>
+
+<h3>7.2 BNB Smart Chain</h3>
+<p>MOLO is deployed on BNB Smart Chain (BSC) for several strategic reasons:</p>
+<ul>
+<li><strong>Low Fees:</strong> BSC transaction costs average $0.03-0.10, making high-frequency logistics settlement economically viable.</li>
+<li><strong>Fast Finality:</strong> 3-second block times ensure near-instant transaction confirmation for time-sensitive freight operations.</li>
+<li><strong>EVM Compatibility:</strong> Full compatibility with Ethereum tooling, wallets, and development frameworks.</li>
+<li><strong>Large Ecosystem:</strong> Access to PancakeSwap DEX, Venus lending, and the broader BSC DeFi ecosystem for liquidity and integrations.</li>
+<li><strong>Enterprise Adoption:</strong> BSC&rsquo;s proven track record with enterprise-grade applications and BNB Chain&rsquo;s institutional partnerships.</li>
+</ul>
+
+<h3>7.3 DEX Integration</h3>
+<p>The MOLO/WBNB trading pair is live on PancakeSwap V2, the largest decentralized exchange on BNB Smart Chain. This provides:</p>
+<ul>
+<li>Permissionless token trading 24/7 with no KYC requirements</li>
+<li>Automated market making (AMM) with constant product formula</li>
+<li>Integration with price aggregators (DEXTools, DEXScreener, GeckoTerminal)</li>
+<li>Foundation for future CEX listings and cross-chain bridges</li>
+</ul>
+</div>
+
+<div class="section" id="security">
+<h2><span class="num">8</span> Security</h2>
+<h3>8.1 Contract Safety Features</h3>
+<div class="highlight-box green">
+<ul style="list-style:none;padding:0;margin:0">
+<li style="padding:4px 0">&#x2705; <strong>No Mint Function</strong> &mdash; Total supply is permanently fixed at 100T. No new tokens can ever be created.</li>
+<li style="padding:4px 0">&#x2705; <strong>Verified Source Code</strong> &mdash; Full contract source is publicly verified on BSCscan for transparency.</li>
+<li style="padding:4px 0">&#x2705; <strong>OpenZeppelin v5</strong> &mdash; Built on the most audited and battle-tested smart contract framework.</li>
+<li style="padding:4px 0">&#x2705; <strong>Emergency Pause</strong> &mdash; Owner can pause all transfers to protect holders during security incidents.</li>
+<li style="padding:4px 0">&#x2705; <strong>Team Tokens Locked</strong> &mdash; 25% of supply is locked in an on-chain vesting contract with a 24-month schedule.</li>
+<li style="padding:4px 0">&#x2705; <strong>Reentrancy Safe</strong> &mdash; OpenZeppelin&rsquo;s standard implementation prevents reentrancy attacks.</li>
+<li style="padding:4px 0">&#x2705; <strong>Transparent Allocation</strong> &mdash; All distribution wallets are publicly known and verifiable on-chain.</li>
+</ul>
+</div>
+
+<h3>8.2 Ownership Transparency</h3>
+<p>The contract owner (Liquidity wallet: <code style="background:rgba(76,201,240,0.08);padding:2px 6px;border-radius:4px;color:var(--accent);font-size:0.85rem">0x7abe4dB700cfAA83286272FDEe7299E084631a8F</code>) has limited administrative powers:</p>
+<ul>
+<li><strong>Can:</strong> Pause/unpause transfers, burn owned tokens</li>
+<li><strong>Cannot:</strong> Mint new tokens, modify balances, change supply, blacklist addresses, or modify transfer logic</li>
+</ul>
+<p>The owner can transfer ownership via OpenZeppelin&rsquo;s <code style="background:rgba(76,201,240,0.08);padding:2px 6px;border-radius:4px;color:var(--accent);font-size:0.85rem">transferOwnership()</code> function, and can renounce ownership entirely if the community votes to do so.</p>
+</div>
+
+<div class="section" id="ecosystem">
+<h2><span class="num">9</span> Ecosystem Products</h2>
+
+<table class="data-table">
+<tr><th>Product</th><th>Description</th><th>Status</th></tr>
+<tr><td><strong>Rayanava</strong></td><td>AI-powered multi-modal route optimization engine with real-time traffic, weather, and fuel cost analysis</td><td style="color:var(--gold)">In Development</td></tr>
+<tr><td><strong>MoloLink</strong></td><td>End-to-end shipment tracking with IoT integration and blockchain-anchored status updates</td><td style="color:var(--gold)">In Development</td></tr>
+<tr><td><strong>OTMS</strong></td><td>Operational Transport Management System for freight lifecycle digitization and smart contract settlement</td><td style="color:var(--gold)">In Development</td></tr>
+<tr><td><strong>MOLO Token</strong></td><td>BEP-20 utility and governance token on BNB Smart Chain</td><td style="color:var(--green)">Live</td></tr>
+<tr><td><strong>PancakeSwap Pool</strong></td><td>MOLO/WBNB AMM trading pair on PancakeSwap V2</td><td style="color:var(--green)">Live</td></tr>
+<tr><td><strong>Team Vesting</strong></td><td>On-chain vesting contract with 24-month release schedule</td><td style="color:var(--green)">Active</td></tr>
+<tr><td><strong>Knowledge Base</strong></td><td>Investor-facing dashboard with real-time token analytics, security reports, and distribution health monitoring</td><td style="color:var(--green)">Live</td></tr>
+</table>
+</div>
+
+<div class="section" id="roadmap">
+<h2><span class="num">10</span> Roadmap</h2>
+
+<div class="roadmap-grid">
+  <div class="roadmap-card">
+    <h4><span class="status done"></span>Q1 2026 &mdash; Foundation</h4>
+    <ul>
+      <li>MOLO token contract deployment on BSC Mainnet</li>
+      <li>Source code verification on BSCscan</li>
+      <li>Team vesting contract deployment and lock</li>
+      <li>Token distribution to allocation wallets</li>
+      <li>PancakeSwap V2 MOLO/WBNB pool launch</li>
+      <li>Knowledge Base and investor dashboard</li>
+      <li>BSCscan, CoinGecko, CMC listing applications</li>
+    </ul>
+  </div>
+  <div class="roadmap-card">
+    <h4><span class="status progress"></span>Q2 2026 &mdash; Growth</h4>
+    <ul>
+      <li>CoinGecko and CoinMarketCap listings</li>
+      <li>Community growth to 1,000+ holders</li>
+      <li>Rayanava AI routing engine alpha</li>
+      <li>MoloLink tracking prototype</li>
+      <li>Strategic partnership announcements</li>
+      <li>Marketing and awareness campaigns</li>
+      <li>Trust Wallet asset listing</li>
+    </ul>
+  </div>
+  <div class="roadmap-card">
+    <h4><span class="status planned"></span>Q3-Q4 2026 &mdash; Platform</h4>
+    <ul>
+      <li>OTMS operational management system beta</li>
+      <li>Rayanava public beta launch</li>
+      <li>MoloLink IoT sensor integrations</li>
+      <li>Staking mechanism implementation</li>
+      <li>Governance voting portal</li>
+      <li>CEX listing applications</li>
+      <li>Enterprise pilot partnerships</li>
+    </ul>
+  </div>
+  <div class="roadmap-card">
+    <h4><span class="status planned"></span>2027 &mdash; Scale</h4>
+    <ul>
+      <li>Full platform production launch</li>
+      <li>Cross-chain bridge deployment</li>
+      <li>Enterprise tier licensing</li>
+      <li>Regional logistics network expansion</li>
+      <li>Automated burn mechanism activation</li>
+      <li>DAO transition for governance</li>
+      <li>10,000+ active users target</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<div class="section" id="contracts">
+<h2><span class="num">11</span> Contract Addresses</h2>
+<p>All contracts are deployed on BNB Smart Chain Mainnet (Chain ID: 56) and fully verified on BSCscan.</p>
+
+<div class="contract-box">
+  <span class="contract-label">MOLO Token</span>
+  <a class="contract-addr" href="https://bscscan.com/token/0x5c3A99A8531BF021423CAD9d0a07Df76aF334FcF" target="_blank">0x5c3A99A8531BF021423CAD9d0a07Df76aF334FcF</a>
+</div>
+<div class="contract-box">
+  <span class="contract-label">Vesting Contract</span>
+  <a class="contract-addr" href="https://bscscan.com/address/0x3EEC23A2B1f9E8a3c96735eef1BF966F16983215" target="_blank">0x3EEC23A2B1f9E8a3c96735eef1BF966F16983215</a>
+</div>
+<div class="contract-box">
+  <span class="contract-label">PancakeSwap Pair</span>
+  <a class="contract-addr" href="https://bscscan.com/address/0x5f38CAd1465aF9808Bd1187a6EC628AD88296F37" target="_blank">0x5f38CAd1465aF9808Bd1187a6EC628AD88296F37</a>
+</div>
+<div class="contract-box">
+  <span class="contract-label">PCS V2 Router</span>
+  <a class="contract-addr" href="https://bscscan.com/address/0x10ED43C718714eb63d5aA57B78B54704E256024E" target="_blank">0x10ED43C718714eb63d5aA57B78B54704E256024E</a>
+</div>
+<div class="contract-box">
+  <span class="contract-label">Deployer</span>
+  <a class="contract-addr" href="https://bscscan.com/address/0x12146574EcCf3Ec3359446Cac2A8Cb1F1d3f8b45" target="_blank">0x12146574EcCf3Ec3359446Cac2A8Cb1F1d3f8b45</a>
+</div>
+</div>
+
+<div class="section" id="legal">
+<h2><span class="num">12</span> Legal Disclaimer</h2>
+<p>This whitepaper is for informational purposes only and does not constitute financial, investment, legal, or tax advice. The MOLO token is a utility token designed for use within the Molochain logistics ecosystem. It is not a security, equity, debt instrument, or investment contract.</p>
+<p>Purchasing, holding, or using MOLO tokens involves risks, including but not limited to: smart contract vulnerabilities, market volatility, regulatory changes, and loss of access to wallets or private keys. Past performance does not guarantee future results.</p>
+<p>The information contained herein is subject to change without notice. The Molochain team reserves the right to modify token mechanics, roadmap timelines, and ecosystem features as the project evolves. Users should conduct their own research and consult professional advisors before making any decisions related to cryptocurrency.</p>
+<p>Residents of jurisdictions where token purchases are restricted or prohibited should not acquire MOLO tokens. By interacting with the MOLO token contract, users acknowledge and accept these terms.</p>
+</div>
+
+<div class="footer-section">
+  <p><strong>MOLO CHAIN</strong> &mdash; Whitepaper v1.0 &bull; March 2026</p>
+  <p>&copy; 2026 Molochain. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="https://molochain.com" target="_blank">Website</a>
+    <a href="https://bscscan.com/token/0x5c3A99A8531BF021423CAD9d0a07Df76aF334FcF" target="_blank">BSCscan</a>
+    <a href="https://pancakeswap.finance/swap?outputCurrency=0x5c3A99A8531BF021423CAD9d0a07Df76aF334FcF" target="_blank">PancakeSwap</a>
+    <a href="https://twitter.com/molochain" target="_blank">Twitter</a>
+    <a href="https://github.com/molochain" target="_blank">GitHub</a>
+    <a href="https://discord.gg/molochain" target="_blank">Discord</a>
+  </div>
+</div>
+
+</div>
+</body></html>
